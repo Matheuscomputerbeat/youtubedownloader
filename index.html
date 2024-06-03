@@ -1,62 +1,54 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YouTube MP3 Downloader</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Baixar Áudio do YouTube</title>
+    <script type="text/python">
+        # Certifique-se de ter pytube instalado
+        # Você pode instalar usando o comando: pip install pytube
+        
+        from pytube import YouTube
+        import os
+        
+        class DownloadYouTubeAudioApp:
+            def __init__(self):
+                self.layout = document.getElementById('layout')
+                
+                self.label = document.createElement('label')
+                self.label.textContent = 'Insira o link do YouTube:'
+                self.layout.appendChild(self.label)
+                
+                self.text_input = document.createElement('input')
+                self.text_input.setAttribute('type', 'text')
+                self.layout.appendChild(self.text_input)
+                
+                self.download_button = document.createElement('button')
+                self.download_button.textContent = 'Baixar'
+                self.download_button.onclick = self.download_audio
+                self.layout.appendChild(self.download_button)
+                
+                self.status_label = document.createElement('label')
+                self.layout.appendChild(self.status_label)
+                
+            def download_audio(self):
+                link = self.text_input.value
+                output_path = '.'
+                try:
+                    yt = YouTube(link)
+                    audio_stream = yt.streams.filter(only_audio=True).first()
+                    downloaded_file = audio_stream.download(output_path=output_path)
+                    base, ext = os.path.splitext(downloaded_file)
+                    new_file = base + '.mp3'
+                    os.rename(downloaded_file, new_file)
+                    self.status_label.textContent = f"Download completo e convertido para: {new_file}"
+                except Exception as e:
+                    self.status_label.textContent = f"Erro: {e}"
+        
+        app = DownloadYouTubeAudioApp()
+    </script>
 </head>
 <body>
-    <input type="text" id="youtubeLink" placeholder="Insira o link do vídeo do YouTube">
-    <button onclick="downloadSong()">Baixar Música</button>
-    <div id="downloadArea"></div>
-
-    <py-script> # Certifique-se de ter pytube e kivy instalados
-# Você pode instalar usando os comandos: pip install pytube kivy
-
-from kivy.app import App
-from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.label import Label
-from kivy.uix.textinput import TextInput
-from kivy.uix.button import Button
-from pytube import YouTube
-import os
-
-class DownloadYouTubeAudioApp(App):
-    def build(self):
-        self.layout = BoxLayout(orientation='vertical')
-
-        self.label = Label(text='Insira o link do YouTube:')
-        self.layout.add_widget(self.label)
-
-        self.text_input = TextInput(multiline=False, readonly=False)
-        self.layout.add_widget(self.text_input)
-
-        self.download_button = Button(text='Baixar')
-        self.download_button.bind(on_press=self.download_audio)
-        self.layout.add_widget(self.download_button)
-
-        self.status_label = Label(text='')
-        self.layout.add_widget(self.status_label)
-
-        return self.layout
-
-    def download_audio(self, instance):
-        link = self.text_input.text
-        output_path = '.'
-        try:
-            yt = YouTube(link)
-            audio_stream = yt.streams.filter(only_audio=True).first()
-            downloaded_file = audio_stream.download(output_path=output_path)
-            base, ext = os.path.splitext(downloaded_file)
-            new_file = base + '.mp3'
-            os.rename(downloaded_file, new_file)
-            self.status_label.text = f"Download completo e convertido para: {new_file}"
-        except Exception as e:
-            self.status_label.text = f"Erro: {e}"
-
-if __name__ == '__main__':
-    DownloadYouTubeAudioApp().run()
-</py-script>
+    <div id="layout"></div>
 </body>
 </html>
