@@ -1,24 +1,26 @@
 /* Estilo para o botão de download */
 button {
     padding: 10px 20px;
-    background-color: #4CAF50;
+    background-color: #4CAF50; /* Verde */
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
     transition: background-color 0.3s ease;
+    display: block; /* Para centralizar o botão */
+    margin: 0 auto; /* Para centralizar o botão */
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: #45a049; /* Tom mais escuro de verde */
 }
 
 /* Estilo para o link de download */
 a {
     display: inline-block;
     padding: 10px 20px;
-    background-color: #008CBA;
+    background-color: #008CBA; /* Azul */
     color: white;
     text-decoration: none;
     border-radius: 5px;
@@ -27,5 +29,5 @@ a {
 }
 
 a:hover {
-    background-color: #005f7a;
+    background-color: #005f7a; /* Tom mais escuro de azul */
 }
