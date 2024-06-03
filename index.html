@@ -11,6 +11,52 @@
     <button onclick="downloadSong()">Baixar Música</button>
     <div id="downloadArea"></div>
 
-    <script src="download.js"></script>
+    <py-script> # Certifique-se de ter pytube e kivy instalados
+# Você pode instalar usando os comandos: pip install pytube kivy
+
+from kivy.app import App
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.label import Label
+from kivy.uix.textinput import TextInput
+from kivy.uix.button import Button
+from pytube import YouTube
+import os
+
+class DownloadYouTubeAudioApp(App):
+    def build(self):
+        self.layout = BoxLayout(orientation='vertical')
+
+        self.label = Label(text='Insira o link do YouTube:')
+        self.layout.add_widget(self.label)
+
+        self.text_input = TextInput(multiline=False, readonly=False)
+        self.layout.add_widget(self.text_input)
+
+        self.download_button = Button(text='Baixar')
+        self.download_button.bind(on_press=self.download_audio)
+        self.layout.add_widget(self.download_button)
+
+        self.status_label = Label(text='')
+        self.layout.add_widget(self.status_label)
+
+        return self.layout
+
+    def download_audio(self, instance):
+        link = self.text_input.text
+        output_path = '.'
+        try:
+            yt = YouTube(link)
+            audio_stream = yt.streams.filter(only_audio=True).first()
+            downloaded_file = audio_stream.download(output_path=output_path)
+            base, ext = os.path.splitext(downloaded_file)
+            new_file = base + '.mp3'
+            os.rename(downloaded_file, new_file)
+            self.status_label.text = f"Download completo e convertido para: {new_file}"
+        except Exception as e:
+            self.status_label.text = f"Erro: {e}"
+
+if __name__ == '__main__':
+    DownloadYouTubeAudioApp().run()
+</py-script>
 </body>
 </html>
